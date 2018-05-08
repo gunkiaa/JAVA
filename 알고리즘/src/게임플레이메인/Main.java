@@ -2,7 +2,7 @@ package 게임플레이메인;
 
 import java.util.Scanner;
 
-import 블랙잭.BlackJackPlay;
+import MY블랙잭.GamePlayMain;
 import 숫자맞추기.NumberHit;
 import 숫자야구게임.BaseBallGame;
 import 숫자야구게임.BaseBallMain;
@@ -39,7 +39,7 @@ public class Main {
 				}
 			} else if (check == 2) {
 				System.out.println("====블랙잭 PLAY====");
-				new BlackJackPlay();
+				new GamePlayMain();
 
 			} else if (check == 3) {
 				System.out.println("====숫자 맞추기 PLAY====");

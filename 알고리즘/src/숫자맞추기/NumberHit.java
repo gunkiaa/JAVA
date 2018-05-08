@@ -33,15 +33,15 @@ public class NumberHit {
 	}
 
 	public void inputNum() {
-		for (int i = 0; i < ran.length; i++) {
-			ran[i] = rd.nextInt(9) + 1;
-			for (int j = 0; j < i; j++) {
-				if (ran[i] == ran[j]) {
-					i--;
-					break;
-				}
-			}
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < 9; i++) {
+			list.add(i, i + 1);
 		}
+		Collections.shuffle(list);
+		for (int i = 0; i < 9; i++) {
+			ran[i] = list.get(i);
+		}
+
 	}
 
 	public void check() {
@@ -49,11 +49,6 @@ public class NumberHit {
 		for (int i = 0; i < 9; i++) {
 			list.add(i, i + 1);
 		}
-		// for (int i = 0; i < list.size(); i++) {
-		// System.out.println(list.get(i));
-		// System.out.print(",");
-		// System.out.println(list.indexOf(i+1));
-		// }
 		Collections.shuffle(list);
 		int i = 0;
 		while (i < list.size()) {
@@ -72,32 +67,32 @@ public class NumberHit {
 					System.out.println("1~9 중의 숫자로 입력해주세요.");
 					continue;
 				}
-				if (ran[idx-1] == user) {
+				if (ran[idx - 1] == user) {
 					System.out.println("Hit!");
 					for (int j = 0; j < ran.length; j++) {
-						if (j < idx-1) {
+						if (j < idx - 1) {
 							System.out.print(view[j]);
 						}
-						if (j == idx-1) {
+						if (j == idx - 1) {
 							view[j] = "[" + Integer.toString(user) + "]";
 							System.out.print(view[j]);
 						}
-						if (j > idx-1) {
+						if (j > idx - 1) {
 							System.out.print(view[j]);
 						}
 					}
 					break;
 				} else {
-					if (user > ran[idx-1]) {
+					if (user > ran[idx - 1]) {
 						System.out.println("Down");
-					} else if (user < ran[idx-1]) {
+					} else if (user < ran[idx - 1]) {
 						System.out.println("Up");
 					}
 					continue;
 				}
 			}
 		}
-		System.out.println("\n축하합니다."+(list.size())+"개의 숫자를 모두 맞추셨습니다.");
+		System.out.println("\n축하합니다." + (list.size()) + "개의 숫자를 모두 맞추셨습니다.");
 	}
 
 	public static boolean close() {
