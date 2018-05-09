@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CardDeck {
-	private String[] patternDefault = { "♠︎", "♣︎", "♥︎", "♦︎" };
+	protected static String[] patternDefault = { "♠", "♣", "♥", "◈" };
 	private List<String> card = new ArrayList<String>();
 	private int drawNum = 0;
 
@@ -32,27 +32,9 @@ public class CardDeck {
 		Collections.shuffle(card);
 	}
 
-	public int draw() {
+	public String draw() {
 		int num = drawNum;
 		drawNum++;
-		System.out.print(card.get(num));
-		return replace(num);
-	}
-
-	public int draw(int a) {
-		int num = drawNum;
-		drawNum++;
-		return replace(num);
-	}
-
-	public int replace(int num) {
-		String val = card.get(num).replaceAll("♠︎", "").replaceAll("♣︎", "").replaceAll("♥︎", "").replaceAll("♦︎", "");
-		if (val.equals("K") || val.equals("Q") || val.equals("J")) {
-			return 10;
-		}
-		if(val.equals("A")) {
-			return 11;
-		}
-		return Integer.valueOf(val);
+		return card.get(num);
 	}
 }

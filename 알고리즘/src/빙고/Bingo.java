@@ -18,6 +18,7 @@ public class Bingo {
 	public static void main(String[] args) {
 		takeNum(userPan);
 		takeNum(comPan);
+		viewPan(userPan, comPan);
 		while (true) {
 			int checkNum = inputCoin();
 
@@ -97,10 +98,10 @@ public class Bingo {
 	public static void kicker(boolean isKick) {
 		if (isKick) {// 키커
 			// goalKeeper(isKick);
-			System.out.println("====user bingo======");
-			viewPan(userPan);
-			System.out.println("=====com bingo======");
-			viewPan(comPan);
+			// System.out.println("====user bingo======");
+			// viewPan(userPan);
+			// System.out.println("=====com bingo======");
+			// viewPan(comPan);
 			System.out.println("Pan 안에 번호를 선택해주세요.");
 			int kNum = 0;
 			while (true) {
@@ -118,10 +119,10 @@ public class Bingo {
 			}
 			execute(kNum);
 		} else {// 골키퍼
-			System.out.println("====user bingo======");
-			viewPan(userPan);
-			System.out.println("=====com bingo======");
-			viewPan(comPan);
+			// System.out.println("====user bingo======");
+			// viewPan(userPan);
+			// System.out.println("=====com bingo======");
+			// viewPan(comPan);
 
 			execute(comList.get(cn));
 			System.out.println("컴퓨터가 선택한 숫자:" + comList.get(cn));
@@ -192,20 +193,20 @@ public class Bingo {
 		int bCnt = 0;
 		for (int i = 0; i < userPan.length; i++) {
 			for (int j = 0; j < userPan.length; j++) {
-				if(userPan[i][j] == 0) {
+				if (userPan[i][j] == 0) {
 					bCnt++;
 				}
-//				if(userPan[j][i] == 0) {
-//					bCnt++;
-//				}
-				if(cnt == 5) {
+				// if(userPan[j][i] == 0) {
+				// bCnt++;
+				// }
+				if (cnt == 5) {
 					System.out.println("5빙고 플레이어의 승리입니다.");
 					return;
 				}
-				if(bCnt == 5) {
+				if (bCnt == 5) {
 					cnt++;
 					bCnt = 0;
-					System.out.println(cnt+"빙고입니다!");
+					System.out.println(cnt + "빙고입니다!");
 				}
 				// 0,0 0,1 0,2 0,3 0,4
 				// 1,0 1,1 1,2 1,3 1,4
@@ -216,20 +217,31 @@ public class Bingo {
 		}
 	}
 
-	public static void viewPan(int[][] pan) {
-		for (int i = 0; i < pan.length; i++) {
+	public static void viewPan(int[][] pan1, int[][] pan2) {
+		System.out.print("======User Pan======");
+		System.out.println("     =========Com Pan===========");
+		for (int i = 0; i < pan1.length; i++) {
 			for (int j = 0; j < 5; j++) {
-				if (pan[i][j] < 10 && pan[i][j] > 0) {
-					System.out.print("|0" + pan[i][j] + "|");
-				} else if (pan[i][j] == 0) {
-					System.out.print("|" + "**" + "|");
+				if (pan1[i][j] < 10 && pan1[i][j] > 0) {
+					System.out.print("|0" + pan1[i][j] + "|"); // System.out.print("|0" + pan2[i][j] + "|");
+				} else if (pan1[i][j] == 0) {
+					System.out.print("|" + "**" + "|"); // System.out.print("|" + "**" + "|");
 				} else {
-					System.out.print("|" + pan[i][j] + "|");
+					System.out.print("|" + pan1[i][j] + "|"); // System.out.print("|" + pan2[i][j] + "|");
 				}
+				if (pan2[i][j] < 10 && pan2[i][j] > 0) {
+					System.out.print("|0" + pan2[i][j] + "|"); // System.out.print("|0" + pan2[i][j] + "|");
+				} else if (pan1[i][j] == 0) {
+					System.out.print("|" + "**" + "|"); // System.out.print("|" + "**" + "|");
+				} else {
+					System.out.print("|" + pan2[i][j] + "|"); // System.out.print("|" + pan2[i][j] + "|");
+				}
+				System.out.print("  ");
 			}
-			System.out.println("");
+			System.out.println("     ");
 		}
-		System.out.println("====================");
+		System.out.print("====================");
+		System.out.println("     ====================");
 
 	}
 }

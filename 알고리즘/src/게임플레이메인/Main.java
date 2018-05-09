@@ -40,6 +40,12 @@ public class Main {
 			} else if (check == 2) {
 				System.out.println("====블랙잭 PLAY====");
 				new GamePlayMain();
+				if (close()) {
+					System.out.println("\n\n\n\n\n\n\n\n");
+					continue;
+				} else {
+					return;
+				}
 
 			} else if (check == 3) {
 				System.out.println("====숫자 맞추기 PLAY====");
