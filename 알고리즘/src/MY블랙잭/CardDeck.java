@@ -16,6 +16,7 @@ public class CardDeck {
 	private void shuffle() {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j <= 12; j++) {
+				j++;
 				if (j == 11) {
 					card.add(patternDefault[i] + "K");
 				} else if (j == 12) {
@@ -25,7 +26,7 @@ public class CardDeck {
 				} else if (j == 1) {
 					card.add(patternDefault[i] + "A");
 				} else {
-					card.add(patternDefault[i] + (j + 1));
+					card.add(patternDefault[i] + (j));
 				}
 			}
 		}

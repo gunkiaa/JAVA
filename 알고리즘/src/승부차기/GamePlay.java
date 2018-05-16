@@ -7,8 +7,7 @@ public class GamePlay {
 	static Scanner sc = new Scanner(System.in);
 	static Random ran = new Random();
 
-	static int[] comGoal = new int[3];
-	static int[] userGoal = new int[3];
+	static int[] Goal = new int[3];
 
 	static int playerScore = 0;
 	static int comScore = 0;
@@ -111,8 +110,8 @@ public class GamePlay {
 				}
 			}
 			int guardCnt = 0;
-			for (int i = 0; i < comGoal.length; i++) {
-				if (kNum == comGoal[i]) {
+			for (int i = 0; i < Goal.length; i++) {
+				if (kNum == Goal[i]) {
 					guardCnt++;
 				}
 			}
@@ -132,10 +131,10 @@ public class GamePlay {
 
 	public static void goalKeeper(boolean isKick) {
 		if (isKick) {
-			for (int i = 0; i < comGoal.length; i++) {
-				comGoal[i] = ran.nextInt(9) + 1;
+			for (int i = 0; i < Goal.length; i++) {
+				Goal[i] = ran.nextInt(9) + 1;
 				for (int j = 0; j < i; j++) {
-					if (comGoal[i] == comGoal[j]) {
+					if (Goal[i] == Goal[j]) {
 						i--;
 						break;
 					}
@@ -147,9 +146,9 @@ public class GamePlay {
 			System.out.println("수비할 번호를 3개 선택해주세요.");
 			while (true) {
 				try {
-					for (int i = 0; i < userGoal.length; i++) {
-						userGoal[i] = sc.nextInt(10);
-						if (userGoal[i] <= 0 || userGoal[i] >= 10) {
+					for (int i = 0; i < Goal.length; i++) {
+						Goal[i] = sc.nextInt(10);
+						if (Goal[i] <= 0 || Goal[i] >= 10) {
 							System.out.println("1~9의 숫자 중에서 입력해주세요.");
 							i--;
 						}
@@ -162,8 +161,8 @@ public class GamePlay {
 			}
 
 			int guardCnt = 0;
-			for (int i = 0; i < userGoal.length; i++) {
-				if (comKick == userGoal[i]) {
+			for (int i = 0; i < Goal.length; i++) {
+				if (comKick == Goal[i]) {
 					guardCnt++;
 				}
 			}

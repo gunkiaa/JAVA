@@ -1,4 +1,4 @@
-package 게임플레이메인;
+ package 게임플레이메인;
 
 import java.util.Scanner;
 

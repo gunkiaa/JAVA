@@ -5,6 +5,8 @@ import java.util.Scanner;
 import 숫자맞추기.NumberHit;
 
 public class GamePlayMain {
+	boolean isStop = false;
+
 	public GamePlayMain() {
 		Scanner scan = new Scanner(System.in);
 		while (true) {
@@ -35,46 +37,48 @@ public class GamePlayMain {
 			Card card = new Card();
 
 			System.out.println("Draw Card");
+			System.out.print(drawCard(card, player, deck));
+			System.out.print(",");
 			System.out.println(drawCard(card, player, deck));
-
-			System.out.println(drawCard(card, player, deck));
-			System.out.println("카드의 총 합계:" + player.getTotal());
 			if (result(player)) {
 				System.out.println("플레이어의 패배!");
 				return;
 			}
+			System.out.println("딜러의 첫번째 카드");
+			System.out.println(drawCard(card, dealer, deck));
 			drawCard(card, dealer, deck);
-			drawCard(card, dealer, deck);
-
 			if (result(dealer)) {
-				System.out.println("딜러의 아웃!");
+				System.out.println("딜러의 점수가 21점을 넘으므로");
 				System.out.println("플레이어의 승리!");
 				return;
 			}
-
-			System.out.println("OPEN or DRAW");
 			while (true) {
+				System.out.println("OPEN or DRAW");
 				String check = scan.next();
-				if (check.equals("open") || check.equals("OPEN")) {
+				if (check.equals("open") || check.equals("OPEN") || check.equals("오픈")) {
+					isStop = true;
 					dealDraw(card, dealer, deck);
-					resultView(player, dealer);
 					break;
-				} else if (check.equals("draw") || check.equals("DRAW")) {
+				} else if (check.equals("draw") || check.equals("DRAW") || check.equals("드로우")) {
 					System.out.println("DRAW!");
 					System.out.println(drawCard(card, player, deck));
-					System.out.println("카드의 총 합계:" + player.getTotal());
+					System.out.println("뽑은 카드:" + player.getCard());
 					if (result(player)) {
 						System.out.println("플레이어의 점수가 21점을 넘으므로 패배!");
+						isStop = false;
 						break;
+					} else {
+						isStop = true;
+						continue;
 					}
-					dealDraw(card, dealer, deck);
-					resultView(player, dealer);
 				} else {
 					System.out.println("OPEN or DRAW 중 1택");
 					continue;
 				}
 			}
-
+			if (isStop) {
+				resultView(player, dealer);
+			}
 			if (close()) {
 				continue;
 			} else {
@@ -113,15 +117,9 @@ public class GamePlayMain {
 	}
 
 	public void resultView(Player player, Player dealer) {
-		if (player.getTotal() == 21 && dealer.getTotal() == 21) {
-			System.out.println("player Score:" + "BlackJack" + "\ndealer Score:" + "BlackJack");
-		} else if (player.getTotal() == 21) {
-			System.out.println("player Score:" + "BlackJack" + "\ndealer Score:" + dealer.getTotal());
-		} else if (dealer.getTotal() == 21) {
-			System.out.println("player Score:" + player.getTotal() + "\ndealer Score:" + "BlackJack");
-		} else {
-			System.out.println("player Score:" + player.getTotal() + "\ndealer Score:" + dealer.getTotal());
-		}
+
+		System.out.println("player Card:" + player.getCard() + "\ndealer Card:" + dealer.getCard());
+
 		if (dealer.getTotal() > player.getTotal() && dealer.getTotal() <= 21) {
 			System.out.println("딜러 승!");
 		} else if (dealer.getTotal() == player.getTotal()) {
@@ -139,9 +137,13 @@ public class GamePlayMain {
 	public static void rule() {
 		System.out.println("========================BlackJack Rule===========================");
 		System.out.println("1.딜러와 플레이어는 2장을 뽑는다.");
-		System.out.println("2.카드를 뽑은 후 한번, 딜러와 플레이어는 오픈, 드로우 중에 선택한다.");
-		System.out.println("3.카드의 총합이 21이 넘으면 패배하고, 아닐 경우엔 카드의 총합이 높은 쪽이 승리한다.");
-		System.out.println("************* K,Q,J 는 10점, ACE는 11점으로 계산한다. ****************");
+		System.out.println("2.딜러는 카드 한장을 공개한다.");
+		System.out.println("3.플레이어는 OPEN, DRAW 중 선택한다. DRAW는 원하는 만큼 가능하다");
+		System.out.println("4.플레이어가 DRAW를 모두하면 딜러는 자신의 카드의 총합이 16 이하이면 한장을 더 뽑는다.");
+		System.out.println("5.플레이어와 딜러의 스코어를 비교하여 승패를 가린다.");
+		System.out.println("********* 딜러와 플레이어는 스코어가 21보다 높을 시 그 즉시 패배한다.  ********");
+		System.out.println("************* K,Q,J 는 10점, ACE는 11점으로 계산한다.  ****************");
+		System.out.println("******************** 21점은 블랙잭으로 친다 **************************");
 		System.out.println("=================================================================");
 	}
 
@@ -157,10 +159,9 @@ public class GamePlayMain {
 			drawCard(card, dealer, deck);
 			if (result(dealer)) {
 				System.out.println("딜러가 21점을 넘으므로 딜러의 패배!");
+				isStop = false;
 				return;
 			}
-		} else {
-			System.out.println("딜러의 Open!");
 		}
 	}
 }
