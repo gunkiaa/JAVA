@@ -3,26 +3,29 @@ package RPG;
 import java.net.StandardSocketOptions;
 import java.time.temporal.IsoFields;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GamePlay {
+	int mob_cnt = 10;
 	Scanner sc = new Scanner(System.in);
 	Player player;
-	LinkedList<Mob> mob = new LinkedList<Mob>();
+	List<Mob> mob = new LinkedList<Mob>();
 
 	public GamePlay() {
 		settingObject();
 	}
 
 	private void settingObject() {
+		int[][] check = new int[10][10];
 		player = new Player("P", 100, 20);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < mob_cnt; i++) {
 			int health = getRandom(51);
 			int damage = getRandom(11);
 			health++;
 			damage++;
-			if (i < 9) {
+			if (i < mob_cnt - 1) {
 				Mob mo = new Mob("M" + (i + 1), 50 + health, 10 + damage);
 				mo.setPosX((getRandom(10)));
 				mo.setPosY((getRandom(10)));
@@ -42,7 +45,7 @@ public class GamePlay {
 			showPosition();
 			status();
 			System.out.println("이동할 방향을 입력해주세요");
-			System.out.println("1.↑ 2.↓ 3.← 4.→");
+			System.out.println("w.↑ s.↓ a.← d.→");
 			String di = sc.next();
 			System.out.println("이동할 거리를 입력해주세요");
 			System.out.println("1.(1칸) 2.(2칸) 3.(3칸)");
@@ -53,13 +56,13 @@ public class GamePlay {
 				continue;
 			}
 			int plNum = 0;
-			if (di.equals("1")) {
+			if (di.equals("w")) {
 				plNum = player.moveUp(st_num);
-			} else if (di.equals("2")) {
+			} else if (di.equals("s")) {
 				plNum = player.moveDown(st_num);
-			} else if (di.equals("3")) {
+			} else if (di.equals("a")) {
 				plNum = player.moveLeft(st_num);
-			} else if (di.equals("4")) {
+			} else if (di.equals("d")) {
 				plNum = player.moveRight(st_num);
 			} else {
 				continue;
@@ -73,7 +76,7 @@ public class GamePlay {
 			if (isMove) {
 				System.out.println("몹이 이동했어요");
 				int i = 0;
-				while (i < 10) {
+				while (i < mob_cnt) {
 					int diRan = getRandom(4);
 					diRan += 1;
 					int stRan = getRandom(3);
@@ -93,10 +96,8 @@ public class GamePlay {
 			} else {
 				System.out.println("몹이 쉬고 있어요");
 			}
-			ifFight();
 			isMove = !isMove;
-			System.out.println(player.getPosX() + "," + player.getPosY());
-			System.out.println(mob.get(4).getName() + "," + mob.get(4).getPosX() + "," + mob.get(4).getPosY());
+			ifFight();
 		}
 	}
 
@@ -110,12 +111,12 @@ public class GamePlay {
 	}
 
 	public void showPosition() {
-		System.out.println("-------------던전 스트라이커---------------");
+		System.out.println("-----------------MAP-------------------");
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				System.out.print("|");
 				int t = 0;
-				while (t < 10) {
+				while (t < mob_cnt) {
 					if (mob.get(t).getPosX() == j && mob.get(t).getPosY() == i) {
 						System.out.print(mob.get(t).getName());
 						break;
@@ -124,7 +125,7 @@ public class GamePlay {
 				}
 				if (player.getPosX() == j && player.getPosY() == i) {
 					System.out.print(player.getName() + " ");
-				} else if (t == 10) {
+				} else if (t == mob_cnt) {
 					System.out.print("□ ");
 				}
 				System.out.print("|");
@@ -135,17 +136,31 @@ public class GamePlay {
 	}
 
 	public void ifFight() {
-		for (int i = 0; i < 10; i++) {
-			if (player.getPosX() == mob.get(i).getPosY() && player.getPosY() == mob.get(i).getPosX()) {
+		for (int i = 0; i < mob_cnt; i++) {
+			if (player.getPosX() == mob.get(i).getPosX() && player.getPosY() == mob.get(i).getPosY()) {
+				System.out.println("싸웁니다");
 				boolean isAttack = true;
-				if (isAttack) {
-					mob.get(i).setHealth(mob.get(i).getHealth() - player.getDamage());
-				} else {
-					player.setHealth(player.getHealth() - mob.get(i).getDamage());
-				}
-				isAttack = !isAttack;
-				if (mob.get(i).getHealth() <= 0) {
-					System.out.println("몹을 잡았습니다.");
+				while (mob.get(i).getHealth() > 0 || player.getHealth() > 0) {
+					if (isAttack) {
+						System.out.println(mob.get(i).getName() + "에게 피해:" + "-" + mob.get(i).getDamage());
+						mob.get(i).setHealth(mob.get(i).getHealth() - player.getDamage());
+						if (mob.get(i).getHealth() <= 0) {
+							System.out.println("몹을 잡았습니다.");
+							mob.remove(i);
+							player.setLevel(2);
+							mob_cnt--;
+							return;
+						}
+					} else {
+						System.out.println(player.getName() + "에게 피해:" + "-" + player.getDamage());
+						player.setHealth(player.getHealth() - mob.get(i).getDamage());
+						if (player.getHealth() <= 0) {
+							System.out.println("죽었습니다. 게임 오버!!");
+							System.exit(0);
+						}
+					}
+					isAttack = !isAttack;
+
 				}
 			}
 		}

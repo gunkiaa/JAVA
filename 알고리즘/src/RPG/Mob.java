@@ -1,6 +1,6 @@
 package RPG;
 
-public class Mob extends Play {
+public class Mob extends Gamer {
 
 	public Mob(String name, int health, int damage) {
 		super(name, health, damage);
