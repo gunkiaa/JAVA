@@ -19,7 +19,6 @@ public class CardDeck {
 				card.setNum(j + 1);
 				deck.add(card);
 			}
-			System.out.println("");
 		}
 
 	}

@@ -1,14 +1,17 @@
 package 원카드;
+
+import java.util.List;
+
 import 원카드.Card;
 import 원카드.CardDeck;
 import 원카드.Player;
 
 public class GamePlay {
-	CardDeck deck;
-	Card openCard;
-	Player player;
-	Player enemy;
-	final int defaultCard = 5;
+	private CardDeck deck;
+	private Card openCard;
+	private Player player;
+	private Player enemy;
+	private final int defaultCard = 5;
 
 	public GamePlay() {
 		player = new Player();
@@ -21,8 +24,14 @@ public class GamePlay {
 	}
 
 	public void start() {
-		 defaultCard();
-		// System.out.println(player.getCard());
+		defaultCard();
+		List<Card> card = player.getCard();
+		System.out.println("내가 가진 카드");
+		for (int i = 0; i < player.getCard().size(); i++) {
+			System.out.print(card.get(i).getPattern() + card.get(i).getNum());
+			System.out.print(",");
+		}
+		
 	}
 
 	private void defaultCard() {
@@ -30,15 +39,15 @@ public class GamePlay {
 		int i = 0;
 		while (i < defaultCard * 2) {
 			if (isTurn) {
-				Card card = new Card();
-				card.setCard(deck.drawCard());
+				Card card = deck.drawCard();
 				player.setCard(card);
 			} else {
-				Card card = new Card();
-				card.setCard(deck.drawCard());
+				Card card = deck.drawCard();
 				enemy.setCard(card);
 			}
 			isTurn = !isTurn;
+			i++;
 		}
+		System.out.println("플레이어에게 모두 카드가 배분되었습니다.");
 	}
 }
